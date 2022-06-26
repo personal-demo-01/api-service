@@ -22,6 +22,8 @@ variables:
   value: us-east-2
 - name: AWS_ECR_URL
   value: 594914845356.dkr.ecr.us-east-2.amazonaws.com
+- name: IMAGE_REPO_NAME
+  value: demo-01-ecr-dev
 
 stages:
 - stage: PackageAndPublish
@@ -32,16 +34,16 @@ stages:
         echo Before-run
         export AWS_PAGER="cat" # set aws cli output command type to <cat> (by default <less>)
         aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
-      displayName: 'Base: Before-run succeeded'
+      displayName: 'Base: Before-run'
     - script: |
         echo Start packaging
         APP_TAG=$(cat version.txt)
         ECR_IMAGE="${AWS_ECR_URL}/${IMAGE_REPO_NAME}:${APP_TAG}"
         docker build . -t $ECR_IMAGE
         docker push $ECR_IMAGE        
-      displayName: 'Base: Packaging succeeded'
+      displayName: 'Base: Packaging'
     - script: |
         echo Start publishing
         docker push $ECR_IMAGE        
-      displayName: 'Base: Publishing succeeded'
+      displayName: 'Base: Publishing'
 
