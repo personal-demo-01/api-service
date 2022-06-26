@@ -39,11 +39,10 @@ stages:
         echo Start packaging
         APP_TAG=$(cat version.txt)
         ECR_IMAGE="${AWS_ECR_URL}/${IMAGE_REPO_NAME}:${APP_TAG}"
-        docker build . -t $ECR_IMAGE
-        docker push $ECR_IMAGE        
+        docker build . -t $ECR_IMAGE      
       displayName: 'Base: Packaging'
     - script: |
         echo Start publishing
-        docker push $ECR_IMAGE        
+        docker push $ECR_IMAGE
       displayName: 'Base: Publishing'
 
