@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config.from_object(os.environ['APP_SETTINGS'])
+app.config.from_object(os.environ['APP_SETTINGS']) # linux: export APP_SETTINGS=config.DevelopmentConfig
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -13,7 +13,7 @@ from models import Client
 #Index
 @app.route("/")
 def index():
-    return "This is the app index"
+    return "This is the first api endpoint. TEST 001"
 
 #Add client and money
 @app.route("/add")

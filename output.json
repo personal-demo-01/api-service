@@ -1,0 +1,20 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "api-service",
+            "image": "594914845356.dkr.ecr.us-east-2.amazonaws.com/demo-01-ecr-dev:1.0.1",
+            "cpu": 128,
+            "memory": 128,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 8888
+                }
+            ]
+        }
+    ],
+    "memory": "128",
+    "cpu": "256",
+    "family": "test05"
+}
