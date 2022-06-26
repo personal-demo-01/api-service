@@ -6,14 +6,35 @@
 trigger:
 - main
 
+# trigger:
+#   branches:
+#     include:
+#     - main
+#   paths:
+#     include:
+#     - version.txt
+
 pool:
   name: demo-01-pool
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+ 
+parameters:
+- name: CLUSTER # the name of the parameter is buildSteps
+  type: string # data type is StepList
+  default: demo-01-ecs-cluster-dev # default value of buildSteps
+stages:
+- stage: PackageAndPublish
+  jobs:
+  - job: PackageAndPublish
+    steps:
+    - script: echo Starging packaging
+      displayName: 'Base: Package succeeded'
+    - script: |
+        echo Hello world
+        whoami
+        docker images
+        ls -l
+        echo $CLUSTER
+        terraform -help
+      displayName: 'Base: Publishing succeeded'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
