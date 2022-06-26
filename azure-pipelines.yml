@@ -18,8 +18,10 @@ pool:
   name: demo-01-pool
 
 variables:
-- name: CLUSTER
-  value: demo-01-ecs-cluster-dev 
+- name: AWS_DEFAULT_REGION
+  value: us-east-2
+- name: AWS_ECR_URL
+  value: 594914845356.dkr.ecr.us-east-2.amazonaws.com
 
 stages:
 - stage: PackageAndPublish
@@ -27,16 +29,19 @@ stages:
   - job: PackageAndPublish
     steps:
     - script: |
-        echo Starging packaging
-        export AWS_PAGER="cat"
-      displayName: 'Base: Package succeeded'
+        echo Before-run
+        export AWS_PAGER="cat" # set aws cli output command type to <cat> (by default <less>)
+        aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
+      displayName: 'Base: Before-run succeeded'
     - script: |
-        echo Hello world
-        whoami
-        docker images
-        ls -l
-        echo $CLUSTER
-        terraform -help
-        aws ecs list-tasks --cluster demo-01-ecs-cluster-dev
+        echo Start packaging
+        APP_TAG=$(cat version.txt)
+        ECR_IMAGE="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${APP_TAG}"
+        docker build . -t $ECR_IMAGE
+        docker push $ECR_IMAGE        
+      displayName: 'Base: Packaging succeeded'
+    - script: |
+        echo Start publishing
+        docker push $ECR_IMAGE        
       displayName: 'Base: Publishing succeeded'
 
