@@ -22,6 +22,8 @@ variables:
   value: us-east-2
 - name: AWS_ECR_URL
   value: 594914845356.dkr.ecr.us-east-2.amazonaws.com
+- name: IMAGE_REPO_NAME
+  value: demo-01-ecr-dev
 
 stages:
 - stage: PackageAndPublish
