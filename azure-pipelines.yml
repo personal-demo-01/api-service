@@ -36,13 +36,10 @@ stages:
         aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
       displayName: 'Base: Before-run'
     - script: |
-        echo Start packaging
+        echo Start packaging and publishing
         APP_TAG=$(cat version.txt)
         ECR_IMAGE="${AWS_ECR_URL}/${IMAGE_REPO_NAME}:${APP_TAG}"
-        docker build . -t $ECR_IMAGE      
-      displayName: 'Base: Packaging'
-    - script: |
-        echo Start publishing
-        docker push $ECR_IMAGE
-      displayName: 'Base: Publishing'
+        docker build . -t $ECR_IMAGE    
+        docker push $ECR_IMAGE  
+      displayName: 'Base: Packaging and publishing'
 
