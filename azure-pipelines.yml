@@ -17,17 +17,18 @@ trigger:
 pool:
   name: demo-01-pool
 
- 
-parameters:
-- name: CLUSTER # the name of the parameter is buildSteps
-  type: string # data type is StepList
-  default: demo-01-ecs-cluster-dev # default value of buildSteps
+variables:
+- name: CLUSTER
+  value: demo-01-ecs-cluster-dev 
+
 stages:
 - stage: PackageAndPublish
   jobs:
   - job: PackageAndPublish
     steps:
-    - script: echo Starging packaging
+    - script: |
+        echo Starging packaging
+        export AWS_PAGER="cat"
       displayName: 'Base: Package succeeded'
     - script: |
         echo Hello world
@@ -36,5 +37,6 @@ stages:
         ls -l
         echo $CLUSTER
         terraform -help
+        aws ecs list-tasks --cluster demo-01-ecs-cluster-dev
       displayName: 'Base: Publishing succeeded'
 
