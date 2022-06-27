@@ -1,0 +1,41 @@
+# Pipeline to package and publish the app
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - version.txt
+
+pr: none # avoid triggering the pipeline on PRs
+
+pool:
+  name: demo-01-pool
+
+variables:
+- name: CLUSTER
+  value: demo-01-ecs-cluster-dev
+- name: AWS_ACCOUNT_ID
+  value: 594914845356
+- name: AWS_DEFAULT_REGION
+  value: us-east-2
+- name: IMAGE_REPO_NAME
+  value: demo-01-ecr-dev
+- name: TASK_FAMILY
+  value: test05
+
+stages:
+- stage: DeployAPI
+  jobs:
+  - job: DeployAPI
+    steps:
+    - script: |
+        echo Before-run
+      displayName: 'Base: Before-run'
+    - script: |
+        export AWS_PAGER="cat" # set aws cli output command type to <cat> (by default <less>)
+        cd scripts
+        chmod ug+x deploy-api.sh
+        . deploy-api.sh
+      displayName: 'Base: Deploying'
