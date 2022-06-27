@@ -29,6 +29,7 @@ stages:
     - script: |
         export AWS_PAGER="cat" # set aws cli output command type to <cat> (by default <less>)
         cd scripts
+        export APP_TAG=$(cat ../version.txt)
         chmod ug+x deploy-api.sh
         . deploy-api.sh
       displayName: 'Base: Deploying'
