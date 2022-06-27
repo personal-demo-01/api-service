@@ -1,13 +1,6 @@
 # Pipeline to package and publish the app
 
-trigger:
-  branches:
-    include:
-    - main
-  paths:
-    include:
-    - version.txt
-
+trigger: none
 pr: none # avoid triggering the pipeline on PRs
 
 pool:

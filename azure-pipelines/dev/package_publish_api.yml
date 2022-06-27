@@ -1,6 +1,10 @@
 # Pipeline to package and publish the app
 
-trigger: none
+trigger:
+  branches:
+    include:
+    - main
+
 pr: none # avoid triggering the pipeline on PRs
 
 pool:
