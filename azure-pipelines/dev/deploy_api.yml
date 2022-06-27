@@ -16,7 +16,7 @@ variables:
 - name: IMAGE_REPO_NAME
   value: demo-01-ecr-dev
 - name: TASK_FAMILY
-  value: test05
+  value: api-service-task
 
 stages:
 - stage: DeployAPI
