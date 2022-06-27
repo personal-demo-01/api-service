@@ -5,7 +5,7 @@ trigger:
     include:
     - main
 
-pr: none
+pr: none # avoid triggering the pipeline on PRs
 
 pool:
   name: demo-01-pool
@@ -25,7 +25,6 @@ stages:
     steps:
     - script: |
         echo Before-run
-        export AWS_PAGER="cat" # set aws cli output command type to <cat> (by default <less>)
         aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
       displayName: 'Base: Before-run'
     - script: |

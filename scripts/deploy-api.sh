@@ -7,7 +7,6 @@ IMAGE_REPO_NAME=demo-01-ecr-dev
 TASK_FAMILY=test05
 
 APP_TAG=$(cat version.txt)
-
 ECR_IMAGE="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${APP_TAG}"
 
 cat task-definition.json>output.json
