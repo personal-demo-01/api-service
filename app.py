@@ -13,7 +13,7 @@ from models import Client
 #Index
 @app.route("/")
 def index():
-    return "This is the first api endpoint. TEST 003"
+    return "This is the first api endpoint. TEST 004"
 
 #Add client and money
 @app.route("/add")
